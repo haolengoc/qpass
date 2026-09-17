@@ -1,7 +1,5 @@
 import { loadEnvConfig } from "@next/env";
-import { PrismaClient } from "@prisma/client";
-import { Redis } from "@upstash/redis";
-import { getServerEnv } from "../lib/env/server";
+import { parseServerEnv } from "../lib/env/server";
 
 function isPrivateHostname(hostname: string) {
   const normalized = hostname.toLowerCase().replace(/^\[|\]$/g, "");
@@ -32,8 +30,8 @@ function requirePublicUrl(name: string, value: string, protocols: string[]) {
 }
 
 async function main() {
-  loadEnvConfig(process.cwd(), false);
-  const env = getServerEnv({ requireExternalServices: true });
+  const { combinedEnv } = loadEnvConfig(process.cwd(), false);
+  const env = parseServerEnv(combinedEnv, { requireExternalServices: true });
 
   const appUrl = requirePublicUrl("APP_URL", env.APP_URL, ["https:"]);
   const authUrl = requirePublicUrl("NEXTAUTH_URL", env.NEXTAUTH_URL!, ["https:"]);
@@ -44,6 +42,10 @@ async function main() {
   requirePublicUrl("DATABASE_URL", env.DATABASE_URL, ["postgres:", "postgresql:"]);
   requirePublicUrl("DIRECT_URL", env.DIRECT_URL, ["postgres:", "postgresql:"]);
 
+  const [{ PrismaClient }, { Redis }] = await Promise.all([
+    import("@prisma/client"),
+    import("@upstash/redis")
+  ]);
   const prisma = new PrismaClient({
     datasources: { db: { url: env.DIRECT_URL } }
   });

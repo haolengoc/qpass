@@ -3,15 +3,19 @@ import { randomUUID } from "node:crypto";
 import { sendRegistrationConfirmation } from "../services/email.service";
 
 async function main() {
-  loadEnvConfig(process.cwd(), false);
+  const { combinedEnv } = loadEnvConfig(process.cwd(), false);
 
-  const recipientEmail = process.env.TEST_EMAIL_TO?.trim();
+  const recipientEmail = combinedEnv.TEST_EMAIL_TO?.trim();
   if (!recipientEmail) {
     throw new Error("Set TEST_EMAIL_TO to the inbox that should receive the test message.");
   }
-  if (!process.env.RESEND_API_KEY?.trim() || !process.env.EMAIL_FROM?.trim()) {
+  const apiKey = combinedEnv.RESEND_API_KEY?.trim();
+  const from = combinedEnv.EMAIL_FROM?.trim();
+  if (!apiKey || !from) {
     throw new Error("RESEND_API_KEY and EMAIL_FROM are required for the live email test.");
   }
+  process.env.RESEND_API_KEY = apiKey;
+  process.env.EMAIL_FROM = from;
 
   const now = new Date();
   const sent = await sendRegistrationConfirmation({

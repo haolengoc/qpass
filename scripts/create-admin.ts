@@ -1,13 +1,13 @@
 import { loadEnvConfig } from "@next/env";
-import { PrismaClient } from "@prisma/client";
 import {
   createBootstrapAdmin,
   parseBootstrapAdminEnvironment
 } from "../lib/auth/bootstrap-admin";
 
 async function main() {
-  loadEnvConfig(process.cwd());
-  const config = parseBootstrapAdminEnvironment(process.env);
+  const { combinedEnv } = loadEnvConfig(process.cwd(), false);
+  const config = parseBootstrapAdminEnvironment(combinedEnv);
+  const { PrismaClient } = await import("@prisma/client");
   const prisma = new PrismaClient({
     datasources: { db: { url: config.DIRECT_URL } }
   });

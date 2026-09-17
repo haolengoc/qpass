@@ -1,6 +1,6 @@
 import type { Route } from "next";
 import { ArrowLeft, ChevronLeft, ChevronRight, Search, Users } from "lucide-react";
-import Link from "next/link";
+import Link from "@/components/ui/link";
 import { unstable_noStore as noStore } from "next/cache";
 import { ExportMenu } from "@/components/admin/export-menu";
 import { ParticipantTable } from "@/components/admin/participant-table";

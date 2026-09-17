@@ -1,5 +1,5 @@
 import { CalendarDays, Clock, MapPin, Users } from "lucide-react";
-import Link from "next/link";
+import Link from "@/components/ui/link";
 import { EventStatusBadge } from "@/components/admin/event-status-badge";
 import { Button } from "@/components/ui/button";
 import { eventOrNotFound } from "@/lib/errors/event-or-not-found";

@@ -1,6 +1,6 @@
 import { ArrowLeft, Pencil, ScanLine, Users } from "lucide-react";
 import type { Route } from "next";
-import Link from "next/link";
+import Link from "@/components/ui/link";
 import { unstable_noStore as noStore } from "next/cache";
 import { EventStatusBadge } from "@/components/admin/event-status-badge";
 import { ExportMenu } from "@/components/admin/export-menu";

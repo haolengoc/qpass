@@ -1,6 +1,6 @@
 import { ArrowRight, CalendarDays, CheckCircle2, ChevronLeft, ChevronRight, MapPin, Search, Ticket, Users } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/ui/link";
 import { redirect } from "next/navigation";
 import { formatInTimeZone } from "date-fns-tz";
 import { getCurrentUser } from "@/lib/auth/session";

@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/ui/link";
 import { ArrowDown, QrCode } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
 import { getCurrentUser } from "@/lib/auth/session";

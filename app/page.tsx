@@ -5,7 +5,7 @@ import {
   ShieldCheck,
   UserRound
 } from "lucide-react";
-import Link from "next/link";
+import Link from "@/components/ui/link";
 import Image from "next/image";
 import { getCurrentUser } from "@/lib/auth/session";
 import { accountHome, isStaff } from "@/lib/auth/access";

@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import Link from "next/link";
+import Link from "@/components/ui/link";
 import { SignOutButton } from "@/components/auth/sign-out-button";
 import { getCurrentUser } from "@/lib/auth/session";
 import { LoginForm } from "./login-form";

@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/ui/link";
 import { Suspense } from "react";
 import { AccountForm } from "@/components/auth/account-form";
 import { redirect } from "next/navigation";

@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/ui/link";
 import type React from "react";
 import { getCurrentUser } from "@/lib/auth/session";
 import { isStaff } from "@/lib/auth/access";

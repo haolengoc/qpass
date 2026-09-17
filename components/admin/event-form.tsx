@@ -1,7 +1,7 @@
 "use client";
 
 import { ArrowLeft, Plus, Save, Trash2 } from "lucide-react";
-import Link from "next/link";
+import Link from "@/components/ui/link";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 import { Button } from "@/components/ui/button";

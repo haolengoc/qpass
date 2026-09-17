@@ -270,6 +270,36 @@
   .animate-spin, .animate-pulse { animation: none; }
 }
 
+.qpass-navigation-indicator {
+  position: fixed;
+  z-index: 90;
+  bottom: max(1rem, env(safe-area-inset-bottom));
+  left: max(1rem, env(safe-area-inset-left));
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  max-width: calc(100vw - 2rem);
+  border: 1px solid #b9dcd4;
+  border-radius: 999px;
+  background: #f7fdfa;
+  padding: 11px 17px;
+  color: #005d58;
+  box-shadow: 0 6px 24px #163c4826;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  pointer-events: none;
+}
+
+.qpass-navigation-spinner { flex-shrink: 0; }
+
+@keyframes qpass-navigation-spin { to { transform: rotate(360deg); } }
+
+@media (prefers-reduced-motion: no-preference) {
+  .qpass-navigation-indicator { animation: qpass-enter 180ms 120ms ease-out backwards; }
+  .qpass-navigation-spinner { animation: qpass-navigation-spin 850ms linear infinite; }
+}
+
 /* Keep input text legible and prevent focus zoom on small touch screens. */
 @media (max-width: 640px) {
   .qpass-field { font-size: 16px; }

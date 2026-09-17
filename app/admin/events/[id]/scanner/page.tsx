@@ -1,6 +1,6 @@
 import { ArrowLeft } from "lucide-react";
 import type { Route } from "next";
-import Link from "next/link";
+import Link from "@/components/ui/link";
 import { unstable_noStore as noStore } from "next/cache";
 import { Scanner } from "@/components/admin/scanner";
 import { Button } from "@/components/ui/button";

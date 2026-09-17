@@ -1,6 +1,6 @@
 import { CalendarDays, CheckCircle2, TrendingUp, Users } from "lucide-react";
 import type { Route } from "next";
-import Link from "next/link";
+import Link from "@/components/ui/link";
 import { unstable_noStore as noStore } from "next/cache";
 import { requireUser } from "@/lib/auth/session";
 import { formatEventDate } from "@/lib/time/format";

@@ -2,7 +2,7 @@
 
 import { FormEvent, useState } from "react";
 import { signIn } from "next-auth/react";
-import Link from "next/link";
+import Link from "@/components/ui/link";
 import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";

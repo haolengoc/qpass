@@ -93,7 +93,7 @@ export default async function HomePage() {
             </p>
           </div>
 
-          <div className="mt-6 divide-y divide-[#dce8e7] border-y border-[#dce8e7]">
+          <div className={`${styles.eventList} mt-6`}>
             {events.length === 0 ? (
               <p className="py-12 text-muted-foreground">
                 Chưa có sự kiện sắp tới.

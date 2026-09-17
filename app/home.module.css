@@ -1,6 +1,7 @@
 .home {
   color: #19282d;
   letter-spacing: 0;
+  background: linear-gradient(180deg, #fff 50%, #f5f9f7);
 }
 
 .hero {
@@ -99,8 +100,15 @@
   background: #dceeed;
 }
 
+.eventList { display: grid; gap: 16px; }
+
 .eventRow {
-  transition: background-color 200ms ease, box-shadow 200ms ease;
+  padding: 22px;
+  border: 1px solid #dce8e7;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 6px 24px -18px #164c4933;
+  transition: background-color 200ms ease, box-shadow 200ms ease, border-color 200ms ease;
 }
 
 .eventRow:focus-within {
@@ -111,7 +119,8 @@
 @media (hover: hover) and (pointer: fine) {
   .eventRow:hover {
     background: #f3f9f7;
-    box-shadow: inset 3px 0 #00616b;
+    border-color: #a5ccc3;
+    box-shadow: inset 3px 0 #00616b, 0 12px 24px -16px #164c4940;
   }
 }
 
@@ -136,6 +145,10 @@
   .eventRow { animation: reveal 500ms ease-out backwards; }
   .eventRow:nth-child(2) { animation-delay: 60ms; }
   .eventRow:nth-child(3) { animation-delay: 120ms; }
+  .eventRow { transition: transform 220ms ease, background-color 200ms ease, box-shadow 200ms ease, border-color 200ms ease; }
+  @media (hover: hover) and (pointer: fine) {
+    .eventRow:hover { transform: translateY(-3px); }
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

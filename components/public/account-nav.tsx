@@ -11,9 +11,9 @@ export async function AccountNav({ showAuthLinks = true, appearance = "default" 
 }) {
   const user = await getCurrentUser();
   const branded = appearance === "brand";
-  return <header className={cn("border-b bg-background", branded && "border-transparent bg-[#00616b] text-white")}>
+  return <header className={cn("border-b bg-background", branded && "qpass-brand-header border-transparent bg-[#00616b] text-white")}>
     <nav className={cn("mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-3 px-5 py-4", branded && "max-w-7xl sm:px-8 md:py-5")}>
-      <Link href="/" aria-label="QPass — Trang chủ" className={cn("font-semibold", branded && "flex items-center gap-3")}>
+      <Link href="/" aria-label="QPass — Trang chủ" className={cn("qpass-logo font-semibold", branded && "flex items-center gap-3")}>
         {branded && <QrCode className="h-8 w-8" aria-hidden="true" />}
         <span>
           <span className={cn(branded && "block text-2xl font-bold leading-7")}>QPass</span>
@@ -22,8 +22,8 @@ export async function AccountNav({ showAuthLinks = true, appearance = "default" 
       </Link>
       <div className={cn("flex flex-wrap items-center gap-3 text-sm", branded && "[&_button:hover]:bg-white/15 [&_button]:text-white")}>
         {user ? <>
-          <Link href="/events" className="font-medium underline-offset-4 hover:underline">Sự kiện</Link>
-          {!isStaff(user.role) && <Link href="/events?view=registered" className="font-medium underline-offset-4 hover:underline">Đã đăng ký</Link>}
+          <Link href="/events" className="qpass-nav-link font-medium">Sự kiện</Link>
+          {!isStaff(user.role) && <Link href="/events?view=registered" className="qpass-nav-link font-medium">Đã đăng ký</Link>}
           <span className="max-w-48 break-words">{user.name}</span>
           {isStaff(user.role) && <Link href="/admin/events" className={branded ? "text-white underline-offset-4 hover:underline" : "text-primary"}>Quản trị BTC</Link>}
           <SignOutButton />

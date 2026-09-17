@@ -11,9 +11,9 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   if (!user || !isStaff(user.role)) return <>{children}</>;
   return (
     <div className="min-h-screen bg-[#f6f9f9] [--primary:186_100%_21%] [--ring:186_100%_21%]">
-      <header className="bg-[#00616b] text-white">
+      <header className="qpass-brand-header bg-[#00616b] text-white">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-5 py-5 sm:px-8">
-          <Link href="/" aria-label="QPass — Trang chủ" className="flex items-center gap-3">
+          <Link href="/" aria-label="QPass — Trang chủ" className="qpass-logo flex items-center gap-3">
             <QrCode size={32} aria-hidden="true" />
             <span><span className="block text-2xl font-bold leading-7">QPass</span><span className="block text-[10px] font-bold text-[#ffb68f]">BAN TỔ CHỨC</span></span>
           </Link>

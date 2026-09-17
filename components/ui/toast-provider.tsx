@@ -85,12 +85,13 @@ function ToastCard({ toast, onDismiss }: { toast: ToastItem; onDismiss: () => vo
   return (
     <div
       className={`qpass-toast pointer-events-auto relative overflow-hidden rounded-xl border bg-white shadow-xl ${tone}`}
+      data-variant={toast.variant}
       role={toast.variant === "error" ? "alert" : "status"}
       aria-live={toast.variant === "error" ? "assertive" : "polite"}
       aria-atomic="true"
     >
       <div className="flex items-start gap-3 px-4 py-3.5 pr-11">
-        <Icon className="mt-0.5 h-5 w-5 shrink-0" aria-hidden="true" />
+        <span className="qpass-toast-icon" aria-hidden="true"><Icon className="h-5 w-5" /></span>
         <div className="min-w-0">
           <p className="font-semibold leading-5">{toast.title}</p>
           {toast.description ? (

@@ -1,0 +1,38 @@
+.trigger { position: relative; display: grid; width: 44px; height: 44px; flex-shrink: 0; place-items: center; border: 1px solid currentColor; border-radius: 14px; color: inherit; background: #ffffff10; transition: background-color 180ms ease; }
+.trigger:hover, .trigger[data-state="open"] { background: #ffffff26; }
+.trigger:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
+.count { position: absolute; top: -6px; right: -6px; display: grid; min-width: 21px; height: 21px; padding: 0 5px; place-items: center; border: 2px solid #fff; border-radius: 999px; background: #c2410c; color: #fff; font-size: 10px; font-weight: 750; line-height: 1; }
+.panel { position: fixed; z-index: 70; top: max(88px, env(safe-area-inset-top)); right: max(16px, env(safe-area-inset-right)); display: flex; width: min(400px, calc(100vw - 32px)); max-height: calc(100dvh - 112px - env(safe-area-inset-bottom)); flex-direction: column; overflow: hidden; border: 1px solid #cce2dc; border-radius: 20px; background: #fff; color: #203237; box-shadow: 0 22px 65px -16px #143d4955, 0 4px 14px #143d4910; outline: none; }
+.heading { display: flex; flex-shrink: 0; align-items: center; justify-content: space-between; gap: 12px; padding: 18px 20px; border-bottom: 1px solid #e1ece8; background: linear-gradient(120deg, #ecf8f2, #fff); }
+.title { font-size: 19px; font-weight: 750; }
+.subtitle { margin-top: 4px; color: #56716c; font-size: 12px; }
+.close { display: grid; width: 40px; height: 40px; flex-shrink: 0; place-items: center; border-radius: 12px; color: #56716c; }
+.close:hover { background: #dfefe8; }
+.markAll { display: flex; min-height: 44px; flex-shrink: 0; align-items: center; justify-content: flex-end; gap: 7px; padding: 10px 20px; color: #006459; font-size: 12px; font-weight: 650; }
+.markAll:hover { background: #f0f9f5; }
+.markAll:disabled { opacity: 0.6; cursor: wait; }
+.list { overflow-y: auto; overscroll-behavior: contain; }
+.list li + li { border-top: 1px solid #eaf1ee; }
+.item { display: flex; align-items: flex-start; gap: 12px; padding: 16px 20px; transition: background-color 180ms ease; }
+.item:hover { background: #f2f8f5; }
+.unread { background: #f3fbf7; }
+.unread:hover { background: #e6f5ee; }
+.icon { display: grid; width: 38px; height: 38px; flex: 0 0 38px; place-items: center; border: 1px solid #d1e2f3; border-radius: 12px; background: #edf5ff; color: #2d669c; }
+.checkin { border-color: #bce6d3; background: #e4f8ed; color: #087352; }
+.message { display: grid; min-width: 0; gap: 5px; font-size: 13px; line-height: 1.6; overflow-wrap: anywhere; }
+.message > strong { font-size: 13px; color: #1b423b; }
+.message > span { color: #4e6563; }
+.message b { font-weight: 600; }
+.message time { color: #627773; font-size: 11px; }
+.dot { width: 7px; height: 7px; flex: 0 0 7px; margin-top: 7px; border-radius: 50%; background: #087f69; }
+.empty { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 36px 24px; color: #617772; text-align: center; font-size: 13px; line-height: 1.7; }
+.empty svg { color: #458d7d; }
+.empty strong { color: #2e5047; }
+.error { margin: 12px 16px; border: 1px solid #fed7aa; border-radius: 10px; padding: 12px; color: #9a3412; background: #fff7ed; font-size: 13px; }
+.error button { margin-top: 6px; min-height: 32px; font-weight: 650; text-decoration: underline; }
+.footer { padding: 10px; border-top: 1px solid #e1ece8; color: #627773; font-size: 11px; text-align: center; }
+.item:focus-visible, .markAll:focus-visible, .close:focus-visible, .error button:focus-visible { outline: 2px solid #00806e; outline-offset: -3px; }
+@keyframes reveal { from { opacity: 0; transform: translateY(-8px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+@media (prefers-reduced-motion: no-preference) { .panel[data-state="open"] { animation: reveal 180ms ease-out; transform-origin: top right; } }
+@media (prefers-reduced-motion: reduce) { .trigger, .item { transition: none; } }
+@media (max-width: 400px) { .item, .heading { padding: 14px; } .item { gap: 9px; } }

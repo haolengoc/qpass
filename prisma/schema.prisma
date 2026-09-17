@@ -127,6 +127,8 @@ model Registration {
   registeredAt            DateTime           @default(now()) @map("registered_at")
   updatedAt               DateTime           @updatedAt @map("updated_at")
   confirmationEmailSentAt DateTime?          @map("confirmation_email_sent_at")
+  registrationNoticeReadAt DateTime?        @map("registration_notice_read_at")
+  checkinNoticeReadAt    DateTime?           @map("checkin_notice_read_at")
 
   event    Event                @relation(fields: [eventId], references: [id], onDelete: Cascade)
   user     User?                @relation(fields: [userId], references: [id], onDelete: SetNull)
@@ -140,6 +142,7 @@ model Registration {
   @@index([studentId])
   @@index([email])
   @@index([registeredAt])
+  @@index([userId, registeredAt])
   @@map("registrations")
 }
 

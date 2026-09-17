@@ -3,18 +3,18 @@
 MVP quản lý đăng ký và check-in QR cho nhiều sự kiện, triển khai theo
 `SPECIFICATION.md`.
 
-## Truy cập web local
+## Truy cập web
 
-Web hiện chạy tại **[http://localhost:3100](http://localhost:3100)**.
+Web production chạy tại **[https://qpass-one.vercel.app](https://qpass-one.vercel.app)**.
 
 | Trang | Đường dẫn |
 | --- | --- |
-| Trang chủ | [Mở trang chủ](http://localhost:3100/) |
-| Đăng nhập người tham gia | [Đăng nhập người tham gia](http://localhost:3100/login) |
-| Tạo tài khoản người tham gia | [Tạo tài khoản](http://localhost:3100/signup) |
-| Danh sách sự kiện | [Xem sự kiện](http://localhost:3100/events) |
-| Đăng nhập BTC | [Đăng nhập BTC](http://localhost:3100/admin/login) |
-| Quản lý sự kiện của BTC | [Quản lý sự kiện](http://localhost:3100/admin/events) |
+| Trang chủ | [Mở trang chủ](https://qpass-one.vercel.app/) |
+| Đăng nhập người tham gia | [Đăng nhập người tham gia](https://qpass-one.vercel.app/login) |
+| Tạo tài khoản người tham gia | [Tạo tài khoản](https://qpass-one.vercel.app/signup) |
+| Danh sách sự kiện | [Xem sự kiện](https://qpass-one.vercel.app/events) |
+| Đăng nhập BTC | [Đăng nhập BTC](https://qpass-one.vercel.app/admin/login) |
+| Quản lý sự kiện của BTC | [Quản lý sự kiện](https://qpass-one.vercel.app/admin/events) |
 
 ### Giao diện theo vai trò
 

@@ -8,8 +8,9 @@ const eventName = `E2E Event ${suffix}`;
 const slug = `e2e-event-${suffix}`;
 const participantName = `E2E Participant ${suffix}`;
 const studentId = `E2E-${suffix}`;
-const email = `e2e-${suffix}@example.test`;
+const email = process.env.E2E_PARTICIPANT_EMAIL ?? `e2e-${suffix}@example.test`;
 let createdEventId: string | undefined;
+let qrToken: string | undefined;
 
 function dateTimeInput(dayOffset: number) {
   return formatInTimeZone(
@@ -86,7 +87,20 @@ test("critical event registration and check-in journey", async ({ page, browser 
     await route.continue({ postData: JSON.stringify({ ...data, email: "forged@example.test" }) });
   });
   await participant.getByRole("checkbox", { name: /Tôi xác nhận/ }).check();
+  const registrationResponsePromise = participant.waitForResponse(
+    (response) =>
+      response.url().includes(`/api/events/${createdEventId}/registrations`) &&
+      response.request().method() === "POST"
+  );
   await participant.getByRole("button", { name: "Hoàn tất đăng ký" }).click();
+  const registrationResponse = await registrationResponsePromise;
+  const registrationPayload = await registrationResponse.json();
+  expect(registrationResponse.ok()).toBe(true);
+  qrToken = registrationPayload.data.qrToken;
+  expect(qrToken).toBeTruthy();
+  if (process.env.REQUIRE_EMAIL_DELIVERY === "true") {
+    expect(registrationPayload.data.emailSent).toBe(true);
+  }
   await participant.waitForURL(`**/events/${slug}/registration/success`);
   await expect(participant.getByRole("status").filter({ hasText: "Đăng ký thành công" })).toBeVisible();
   await participant.getByRole("button", { name: "Đóng thông báo" }).click();
@@ -120,18 +134,36 @@ test("critical event registration and check-in journey", async ({ page, browser 
   expect((await participant.request.get("/api/admin/events")).status()).toBe(401);
   await participantContext.close();
 
+  const qrCheckinResponse = await page.request.post(
+    `/api/admin/events/${createdEventId}/checkins/qr`,
+    { data: { token: qrToken } }
+  );
+  expect(qrCheckinResponse.status()).toBe(200);
+  await expect(qrCheckinResponse.json()).resolves.toMatchObject({
+    success: true,
+    data: { status: "SUCCESS" }
+  });
+
+  const duplicateQrResponse = await page.request.post(
+    `/api/admin/events/${createdEventId}/checkins/qr`,
+    { data: { token: qrToken } }
+  );
+  expect(duplicateQrResponse.status()).toBe(200);
+  await expect(duplicateQrResponse.json()).resolves.toMatchObject({
+    success: true,
+    data: { status: "ALREADY_CHECKED_IN" }
+  });
+
   await page.goto(`/admin/events/${createdEventId}/participants`);
   await expect(page.getByText(participantName)).toBeVisible();
   await expect(page.getByText(studentId, { exact: true })).toBeVisible();
   const participantRow = page.locator("tbody tr").filter({ hasText: participantName });
-  await participantRow.getByRole("button", { name: `Check-in thủ công cho ${participantName}` }).click();
-  await expect(page.getByRole("status")).toContainText("Check-in thủ công thành công");
   await expect(participantRow.getByText("Đã check-in", { exact: true })).toBeVisible();
-  await expect(participantRow.getByText("Thủ công", { exact: true })).toBeVisible();
+  await expect(participantRow.getByText("Mã QR", { exact: true })).toBeVisible();
   await page.reload();
   const refreshedRow = page.locator("tbody tr").filter({ hasText: participantName });
   await expect(refreshedRow.getByText("Đã check-in", { exact: true })).toBeVisible();
-  await expect(prisma.checkin.findUnique({ where: { registrationId: registration.id } })).resolves.toMatchObject({ method: "MANUAL" });
+  await expect(prisma.checkin.findUnique({ where: { registrationId: registration.id } })).resolves.toMatchObject({ method: "QR" });
 
   await page.goto(`/admin/events/${createdEventId}/scanner`);
   await page.getByPlaceholder("MSSV, tên, email hoặc mã").fill(studentId);

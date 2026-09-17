@@ -36,6 +36,9 @@
 .capacity { font-size: 12px; color: #52676a; }
 .registration p { font-size: 13px; color: #00616b; font-weight: 600; }
 .registration span { display: block; margin-top: 4px; font-size: 12px; overflow-wrap: anywhere; }
+.checkedIn p { color: #00796b; font-size: 14px; font-weight: 700; }
+.checkedIn p svg { color: #008c7a; }
+.checkedIn span { color: #425b60; }
 .registerButton, .detailButton { margin-top: 16px; width: 100%; min-height: 44px; }
 .registerButton { background: #00616b; }
 .registerButton:hover { background: #004e57; }

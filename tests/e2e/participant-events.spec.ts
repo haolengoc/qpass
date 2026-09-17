@@ -10,6 +10,7 @@ const search = `catalog-${suffix}`;
 const ownCode = `OWN-${suffix}`;
 const otherCode = `OTHER-${suffix}`;
 let creatorId: string;
+let ownRegistrationId: string;
 const userIds: string[] = [];
 let openSlug: string;
 
@@ -39,12 +40,13 @@ test.beforeAll(async () => {
     if (kind === "open") openSlug = event.slug;
     if (["full", "past"].includes(kind)) {
       const own = kind === "past";
-      await prisma.registration.create({ data: {
+      const registration = await prisma.registration.create({ data: {
         eventId: event.id, userId: userIds[own ? 1 : 2],
         fullName: own ? "Catalog Test" : "Another Participant", studentId: `STUDENT-${kind}-${suffix}`,
         email: own ? email : `2-${email}`, registrationCode: own ? ownCode : otherCode,
         qrTokenHash: hashQrToken(crypto.randomUUID())
       } });
+      if (own) ownRegistrationId = registration.id;
     }
   }
 });
@@ -77,6 +79,15 @@ test("participant catalog filters events and exposes only the account's registra
   await page.goto("/events?view=registered");
   await expect(page.locator("article")).toHaveCount(1);
   await expect(page.getByRole("heading", { name: "Catalog past", exact: true })).toBeVisible();
+  const registeredEvent = page.locator("article");
+  await expect(registeredEvent.getByText("Đã đăng ký", { exact: true })).toBeVisible();
+  await prisma.checkin.create({ data: {
+    registrationId: ownRegistrationId,
+    eventId: (await prisma.registration.findUniqueOrThrow({ where: { id: ownRegistrationId } })).eventId,
+    checkedInBy: creatorId,
+    method: "QR"
+  } });
+  await expect(registeredEvent.getByText("Đã check-in", { exact: true })).toBeVisible({ timeout: 15_000 });
   await expect(page.getByText(`Mã đăng ký: ${ownCode}`, { exact: true })).toBeVisible();
   await expect(page.getByText(otherCode, { exact: false })).toHaveCount(0);
   await page.reload();

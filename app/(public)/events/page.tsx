@@ -8,6 +8,7 @@ import { APP_TIME_ZONE, formatEventDate } from "@/lib/time/format";
 import { listParticipantEvents } from "@/services/participant-events.service";
 import { EventStatusBadge } from "@/components/admin/event-status-badge";
 import { Button } from "@/components/ui/button";
+import { ParticipantEventsRefresh } from "@/components/public/participant-events-refresh";
 import styles from "./events.module.css";
 
 export default async function ParticipantEventsPage({ searchParams }: {
@@ -34,6 +35,7 @@ export default async function ParticipantEventsPage({ searchParams }: {
   }
 
   return <main className={styles.workspace}>
+    <ParticipantEventsRefresh enabled={events.some(event => Boolean(event.registration))} />
     <section className={styles.welcome}>
       <Image src="/event-checkin-hero.webp" alt="" fill sizes="100vw" loading="eager" className={styles.welcomeImage} />
       <div className={styles.welcomeInner}>
@@ -69,6 +71,7 @@ export default async function ParticipantEventsPage({ searchParams }: {
       </div> : <div className={styles.grid}>
         {events.map(event => {
           const registration = event.registration;
+          const checkedIn = registration?.status === "REGISTERED" && Boolean(registration.checkin);
           const canRegister = !registration && event.derivedState === "OPEN";
           return <article key={event.id} className={styles.event}>
             <div className={styles.cardTop}>
@@ -85,8 +88,8 @@ export default async function ParticipantEventsPage({ searchParams }: {
             </div>
             <p className={styles.description}>{event.description}</p>
             <div className={styles.cardBottom}>
-              {registration ? <div className={styles.registration}>
-                <p><CheckCircle2 size={16} aria-hidden="true" />{registration.status === "CANCELLED" ? "Đăng ký đã hủy" : registration.checkin ? "Đã check-in" : "Đã đăng ký"}</p>
+              {registration ? <div className={`${styles.registration} ${checkedIn ? styles.checkedIn : ""}`} aria-live="polite">
+                <p><CheckCircle2 size={16} aria-hidden="true" />{registration.status === "CANCELLED" ? "Đăng ký đã hủy" : checkedIn ? "Đã check-in" : "Đã đăng ký"}</p>
                 <span>Mã đăng ký: {registration.registrationCode}</span>
               </div> : <p className={styles.capacity}><Users size={16} aria-hidden="true" />{event.capacity === null ? `${event._count.registrations} người đăng ký` : `${Math.max(0, event.capacity - event._count.registrations)} / ${event.capacity} chỗ còn lại`}</p>}
               <Button asChild variant={canRegister ? "default" : "outline"} className={canRegister ? styles.registerButton : styles.detailButton}>

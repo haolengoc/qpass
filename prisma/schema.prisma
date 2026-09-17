@@ -1,0 +1,176 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum UserRole {
+  ADMIN
+  ORGANIZER
+  PARTICIPANT
+}
+
+enum EventStatus {
+  DRAFT
+  PUBLISHED
+  CANCELLED
+}
+
+enum RegistrationStatus {
+  REGISTERED
+  CANCELLED
+}
+
+enum CheckinMethod {
+  QR
+  MANUAL
+}
+
+enum EventFieldType {
+  TEXT
+  NUMBER
+  EMAIL
+  PHONE
+  SELECT
+  RADIO
+  CHECKBOX
+  TEXTAREA
+}
+
+model User {
+  id           String   @id @default(uuid()) @db.Uuid
+  name         String
+  email        String   @unique
+  passwordHash String   @map("password_hash")
+  role         UserRole
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  createdEvents Event[]   @relation("EventCreator")
+  checkins      Checkin[]
+  registrations Registration[]
+
+  @@map("users")
+}
+
+model Event {
+  id                    String      @id @default(uuid()) @db.Uuid
+  name                  String
+  slug                  String      @unique
+  description           String?
+  location              String?
+  startTime             DateTime    @map("start_time")
+  endTime               DateTime    @map("end_time")
+  registrationOpenAt    DateTime    @map("registration_open_at")
+  registrationCloseAt   DateTime    @map("registration_close_at")
+  checkinOpenAt         DateTime    @map("checkin_open_at")
+  checkinCloseAt        DateTime    @map("checkin_close_at")
+  capacity              Int?
+  status                EventStatus
+  codePrefix            String      @map("code_prefix")
+  registrationCounter   Int         @default(0) @map("registration_counter")
+  collectPhone          Boolean     @default(true) @map("collect_phone")
+  requirePhone          Boolean     @default(false) @map("require_phone")
+  collectFaculty        Boolean     @default(true) @map("collect_faculty")
+  requireFaculty        Boolean     @default(false) @map("require_faculty")
+  createdBy             String      @map("created_by") @db.Uuid
+  createdAt             DateTime    @default(now()) @map("created_at")
+  updatedAt             DateTime    @updatedAt @map("updated_at")
+
+  creator       User           @relation("EventCreator", fields: [createdBy], references: [id])
+  fields        EventField[]
+  registrations Registration[]
+  checkins      Checkin[]
+
+  @@index([status])
+  @@index([startTime])
+  @@map("events")
+}
+
+model EventField {
+  id        String         @id @default(uuid()) @db.Uuid
+  eventId   String         @map("event_id") @db.Uuid
+  label     String
+  fieldKey  String         @map("field_key")
+  type      EventFieldType
+  required  Boolean        @default(false)
+  options   Json?
+  order     Int
+  isActive  Boolean        @default(true) @map("is_active")
+  createdAt DateTime       @default(now()) @map("created_at")
+  updatedAt DateTime       @updatedAt @map("updated_at")
+
+  event   Event                @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  answers RegistrationAnswer[]
+
+  @@unique([eventId, fieldKey])
+  @@index([eventId, order])
+  @@map("event_fields")
+}
+
+model Registration {
+  id                      String             @id @default(uuid()) @db.Uuid
+  userId                  String?            @map("user_id") @db.Uuid
+  eventId                 String             @map("event_id") @db.Uuid
+  registrationCode        String             @unique @map("registration_code")
+  fullName                String             @map("full_name")
+  studentId               String             @map("student_id")
+  email                   String
+  phone                   String?
+  faculty                 String?
+  qrTokenHash             String             @unique @map("qr_token_hash")
+  status                  RegistrationStatus @default(REGISTERED)
+  registeredAt            DateTime           @default(now()) @map("registered_at")
+  updatedAt               DateTime           @updatedAt @map("updated_at")
+  confirmationEmailSentAt DateTime?          @map("confirmation_email_sent_at")
+
+  event    Event                @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  user     User?                @relation(fields: [userId], references: [id], onDelete: SetNull)
+  answers  RegistrationAnswer[]
+  checkin  Checkin?
+
+  @@unique([eventId, studentId])
+  @@unique([eventId, email])
+  @@unique([eventId, userId])
+  @@index([eventId])
+  @@index([studentId])
+  @@index([email])
+  @@index([registeredAt])
+  @@map("registrations")
+}
+
+model RegistrationAnswer {
+  id             String   @id @default(uuid()) @db.Uuid
+  registrationId String   @map("registration_id") @db.Uuid
+  eventFieldId   String   @map("event_field_id") @db.Uuid
+  value          Json
+  createdAt      DateTime @default(now()) @map("created_at")
+
+  registration Registration @relation(fields: [registrationId], references: [id], onDelete: Cascade)
+  eventField   EventField   @relation(fields: [eventFieldId], references: [id], onDelete: Cascade)
+
+  @@unique([registrationId, eventFieldId])
+  @@map("registration_answers")
+}
+
+model Checkin {
+  id             String        @id @default(uuid()) @db.Uuid
+  registrationId String        @unique @map("registration_id") @db.Uuid
+  eventId        String        @map("event_id") @db.Uuid
+  checkedInAt    DateTime      @default(now()) @map("checked_in_at")
+  checkedInBy    String        @map("checked_in_by") @db.Uuid
+  method         CheckinMethod
+  createdAt      DateTime      @default(now()) @map("created_at")
+
+  registration Registration @relation(fields: [registrationId], references: [id], onDelete: Cascade)
+  event        Event        @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  user         User         @relation(fields: [checkedInBy], references: [id])
+
+  @@index([eventId])
+  @@index([checkedInAt])
+  @@map("checkins")
+}

@@ -1,0 +1,304 @@
+.tableShell {
+  overflow-x: auto;
+  border: 1px solid #d8e5e4;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 10px 30px -24px #164c4966;
+}
+
+.table {
+  width: 100%;
+  min-width: 940px;
+  border-collapse: separate;
+  border-spacing: 0;
+  text-align: left;
+  font-size: 14px;
+}
+
+.table thead {
+  background: linear-gradient(180deg, #f5f9f8 0%, #edf4f3 100%);
+  color: #52666b;
+}
+
+.table th {
+  padding: 13px 16px;
+  border-bottom: 1px solid #d8e5e4;
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: 0.045em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.row {
+  position: relative;
+  cursor: pointer;
+  transition: background-color 180ms ease, box-shadow 180ms ease;
+}
+
+.row + .row td {
+  border-top: 1px solid #e8efef;
+}
+
+.row td {
+  padding: 16px;
+  vertical-align: middle;
+}
+
+.row:focus-visible {
+  z-index: 1;
+  outline: none;
+  background: #f0f8f6;
+  box-shadow: inset 3px 0 #008477, inset 0 0 0 2px #008477;
+}
+
+.participant {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  flex: 0 0 42px;
+  place-items: center;
+  border: 1px solid #b8d9d4;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #e1f4ef, #f7fbfa);
+  color: #006b62;
+  box-shadow: inset 0 0 0 3px #fff;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.participantText {
+  min-width: 0;
+}
+
+.participantName {
+  overflow-wrap: anywhere;
+  color: #152a2d;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.identity {
+  display: flex;
+  min-width: 0;
+  flex-wrap: wrap;
+  gap: 5px 10px;
+  margin-top: 6px;
+  color: #637679;
+  font-size: 11px;
+}
+
+.identity span {
+  display: inline-flex;
+  min-width: 0;
+  align-items: center;
+  gap: 4px;
+}
+
+.identity svg {
+  flex: 0 0 auto;
+}
+
+.email {
+  overflow-wrap: anywhere;
+}
+
+.registrationCode {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border: 1px solid #d5e3e2;
+  border-radius: 7px;
+  background: #f7faf9;
+  padding: 7px 9px;
+  color: #234247;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.025em;
+  white-space: nowrap;
+}
+
+.registeredAt {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: #52666b;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: fit-content;
+  border: 1px solid;
+  border-radius: 999px;
+  padding: 5px 9px;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.activeBadge,
+.checkedBadge {
+  border-color: #abe5d0;
+  background: #ecfdf5;
+  color: #067052;
+}
+
+.cancelledBadge {
+  border-color: #fecaca;
+  background: #fef2f2;
+  color: #b42318;
+}
+
+.waitingBadge {
+  border-color: #d8e2e4;
+  background: #f7f9f9;
+  color: #65787b;
+}
+
+.methodBadge {
+  justify-content: center;
+  min-width: 88px;
+}
+
+.manualBadge {
+  border-color: #fed7aa;
+  background: #fff7ed;
+  color: #ad4d0f;
+}
+
+.qrBadge {
+  border-color: #ddd6fe;
+  background: #f5f3ff;
+  color: #6541b2;
+}
+
+.actionCell {
+  text-align: right;
+}
+
+.checkinButton {
+  border-color: #8bc6bf;
+  background: #f4fbf9;
+  color: #006b62;
+  box-shadow: 0 5px 12px -10px #006b62;
+}
+
+.checkinButton:hover {
+  border-color: #006b62;
+  background: #e7f5f2;
+}
+
+.cellLabel {
+  display: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .row:hover {
+    background: #f5faf9;
+    box-shadow: inset 3px 0 #008477;
+  }
+}
+
+@media (max-width: 760px) {
+  .tableShell {
+    overflow: visible;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .table {
+    display: block;
+    min-width: 0;
+  }
+
+  .table thead {
+    display: none;
+  }
+
+  .table tbody {
+    display: grid;
+    gap: 14px;
+  }
+
+  .row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    overflow: hidden;
+    border: 1px solid #d8e5e4;
+    border-top: 3px solid #008477;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 9px 24px -22px #164c4966;
+  }
+
+  .row + .row td {
+    border-top: 0;
+  }
+
+  .row td {
+    display: block;
+    min-width: 0;
+    padding: 12px 14px;
+  }
+
+  .participantCell {
+    grid-column: 1 / -1;
+    border-bottom: 1px solid #e8efef;
+    background: #f8fbfa;
+  }
+
+  .cellLabel {
+    display: block;
+    margin-bottom: 7px;
+    color: #718184;
+    font-size: 9px;
+    font-weight: 750;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .participantCell .cellLabel {
+    display: none;
+  }
+
+  .actionCell {
+    text-align: left;
+  }
+
+  .actionCell button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 420px) {
+  .row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .participantCell {
+    grid-column: auto;
+  }
+
+  .row td:not(:last-child) {
+    border-bottom: 1px solid #eef3f2;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .row { transition: none; }
+}

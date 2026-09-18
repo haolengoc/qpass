@@ -39,6 +39,7 @@ type EventOptions = {
   checkinOpenAt?: Date;
   checkinCloseAt?: Date;
   withRequiredField?: boolean;
+  codePrefix?: string;
 };
 
 async function createEvent(options: EventOptions = {}) {
@@ -60,7 +61,7 @@ async function createEvent(options: EventOptions = {}) {
       checkinCloseAt: options.checkinCloseAt ?? new Date(now + 3_600_000),
       capacity: options.capacity ?? null,
       status: "PUBLISHED",
-      codePrefix: `IT${String(sequence).padStart(2, "0")}`,
+      codePrefix: options.codePrefix ?? `IT${String(sequence).padStart(2, "0")}`,
       collectPhone: true,
       requirePhone: false,
       collectFaculty: true,
@@ -186,6 +187,18 @@ describe.runIf(runDatabaseTests)("registration and check-in integration", () => 
     const rejected = attempts.find((attempt) => attempt.status === "rejected");
     expect(rejected).toMatchObject({ reason: { code: "EVENT_FULL" } });
     expect(await prisma.registration.count({ where: { eventId: event.id } })).toBe(1);
+  });
+
+  it("allows separate events to reuse a registration-code prefix", async () => {
+    const sharedPrefix = `S${runId.replace(/\D/g, "").slice(-7)}`;
+    const firstEvent = await createEvent({ codePrefix: sharedPrefix });
+    const secondEvent = await createEvent({ codePrefix: sharedPrefix });
+
+    const first = await createRegistration(firstEvent.id, registration(12));
+    const second = await createRegistration(secondEvent.id, registration(13));
+
+    expect(first.registration.registrationCode).toBe(`${sharedPrefix}-000001`);
+    expect(second.registration.registrationCode).toBe(`${sharedPrefix}-000001`);
   });
 
   it("rejects registration after its window closes", async () => {

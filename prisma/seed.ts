@@ -204,7 +204,7 @@ async function main() {
   for (let index = 1; index <= 24; index += 1) {
     const code = `DEMO-${String(index).padStart(6, "0")}`;
     const registration = await prisma.registration.upsert({
-      where: { registrationCode: code },
+      where: { eventId_registrationCode: { eventId: openEvent.id, registrationCode: code } },
       update: {},
       create: {
         eventId: openEvent.id,

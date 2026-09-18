@@ -123,6 +123,7 @@ model Registration {
   phone                   String?
   faculty                 String?
   qrTokenHash             String             @unique @map("qr_token_hash")
+  qrTokenEncrypted        String?            @map("qr_token_encrypted")
   status                  RegistrationStatus @default(REGISTERED)
   registeredAt            DateTime           @default(now()) @map("registered_at")
   updatedAt               DateTime           @updatedAt @map("updated_at")

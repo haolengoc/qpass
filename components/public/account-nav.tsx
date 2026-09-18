@@ -27,6 +27,7 @@ export async function AccountNav({ showAuthLinks = true, appearance = "default" 
         {user ? <>
           <Link href="/events" className="qpass-nav-link font-medium">Sự kiện</Link>
           {!isStaff(user.role) && <Link href="/events?view=registered" className="qpass-nav-link font-medium">Đã đăng ký</Link>}
+          {!isStaff(user.role) && <Link href="/events/qr-codes" className="qpass-nav-link flex items-center gap-1.5 font-medium"><QrCode size={16} aria-hidden="true" />Mã QR</Link>}
           <span className="max-w-48 break-words">{user.name}</span>
           {isStaff(user.role) && <Link href="/admin/events" className={branded ? "text-white underline-offset-4 hover:underline" : "text-primary"}>Quản trị BTC</Link>}
           <SignOutButton />

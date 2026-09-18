@@ -1,0 +1,40 @@
+.grid { display: grid; gap: 24px; }
+.registrationSuccess { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 22px; border: 1px solid #b6dfcf; border-radius: 16px; background: linear-gradient(110deg, #e9faf2, #fff); padding: 18px 20px; color: #08705a; box-shadow: 0 8px 26px -22px #164c4966; }
+.registrationSuccess svg { flex-shrink: 0; }
+.registrationSuccess h2 { color: #16483f; font-size: 20px; font-weight: 750; }
+.registrationSuccess p { margin-top: 4px; color: #526a68; font-size: 13px; line-height: 1.6; }
+.card { display: grid; grid-template-columns: minmax(0, 1fr) minmax(280px, 360px); gap: 28px; overflow: hidden; border: 1px solid #cfe1dd; border-top: 4px solid #007568; border-radius: 20px; background: linear-gradient(145deg, #f3faf7, #fff 42%); padding: 28px; box-shadow: 0 14px 38px -28px #164c4966; scroll-margin-top: 20px; }
+.details { min-width: 0; }
+.eyebrow { color: #9b481e; font-size: 11px; font-weight: 750; letter-spacing: .04em; }
+.details h2 { margin-top: 8px; font-size: 26px; font-weight: 700; line-height: 1.3; overflow-wrap: anywhere; }
+.details > p:not(.eyebrow, .emailOk, .emailWarning) { display: flex; align-items: flex-start; gap: 9px; margin-top: 14px; color: #526a68; font-size: 14px; overflow-wrap: anywhere; }
+.details > p svg { flex-shrink: 0; margin-top: 2px; color: #007568; }
+.details dl { margin-top: 24px; border-block: 1px solid #dce9e6; padding-block: 16px; }
+.details dt { color: #60736f; font-size: 11px; }
+.details dd { margin-top: 4px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 14px; font-weight: 700; overflow-wrap: anywhere; }
+.emailOk, .emailWarning { margin-top: 16px; border-radius: 10px; padding: 10px 12px; font-size: 13px; line-height: 1.5; }
+.emailOk { border: 1px solid #b9e2d0; background: #ecfbf3; color: #087052; }
+.emailWarning { border: 1px solid #f4d6ab; background: #fff9ed; color: #91501c; }
+.detailButton { margin-top: 18px; }
+.qrPanel { display: flex; min-width: 0; flex-direction: column; align-self: center; border: 1px solid #dce8e5; border-radius: 16px; background: #fff; padding: 16px; box-shadow: 0 8px 24px -20px #164c4966; }
+.qrPanel img { width: 100%; height: auto; aspect-ratio: 1; }
+.download { width: 100%; margin-top: 12px; }
+.qrLoading, .qrError { display: flex; width: 100%; aspect-ratio: 1; flex-direction: column; align-items: center; justify-content: center; gap: 12px; border-radius: 10px; background: #f2f7f5; color: #526a68; text-align: center; font-size: 13px; }
+.qrError { border: 1px solid #f1c8c5; background: #fff6f5; color: #9d322c; padding: 20px; }
+.qrError button { min-height: 38px; font-weight: 700; text-decoration: underline; }
+.empty { display: flex; min-height: 360px; flex-direction: column; align-items: center; justify-content: center; gap: 14px; border: 1px dashed #bcd6d0; border-radius: 18px; background: #f7fbf9; padding: 36px; color: #526a68; text-align: center; }
+.empty svg { color: #087963; }
+.empty h2 { color: #203a36; font-size: 21px; font-weight: 700; }
+.empty p { max-width: 520px; line-height: 1.7; }
+.celebration { position: fixed; z-index: 120; inset: 0; display: grid; place-items: center; overflow-y: auto; background: #073b3ccc; padding: max(20px, env(safe-area-inset-top)) 20px max(20px, env(safe-area-inset-bottom)); backdrop-filter: blur(9px); }
+.celebrationCard { width: min(100%, 500px); border: 1px solid #a9dfcd; border-radius: 26px; background: radial-gradient(circle at 50% 0, #dff8ed, #fff 52%); padding: 38px 28px; box-shadow: 0 28px 80px #001f204d; text-align: center; }
+.successIcon { display: grid; width: 88px; height: 88px; margin: 0 auto 20px; place-items: center; border: 1px solid #a7dfca; border-radius: 50%; background: #e8fbf2; color: #07805f; box-shadow: 0 0 0 10px #e9f8f180; }
+.celebrationCard h1 { margin-top: 8px; color: #123d36; font-size: clamp(26px, 5vw, 36px); font-weight: 750; line-height: 1.2; }
+.eventName { margin-top: 16px; color: #00685d; font-size: 18px; font-weight: 700; overflow-wrap: anywhere; }
+.checkedTime { margin-top: 8px; color: #627571; font-size: 13px; }
+.successActions { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 26px; }
+@keyframes celebrate { from { opacity: 0; transform: translateY(16px) scale(.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
+@keyframes checkPop { 0% { transform: scale(.5) rotate(-12deg); } 70% { transform: scale(1.08) rotate(2deg); } 100% { transform: scale(1); } }
+@media (prefers-reduced-motion: no-preference) { .celebrationCard { animation: celebrate 400ms cubic-bezier(.22,1,.36,1); } .successIcon { animation: checkPop 500ms 150ms ease-out backwards; } }
+@media (max-width: 720px) { .card { grid-template-columns: minmax(0, 1fr); padding: 20px; } .details h2 { font-size: 22px; } .qrPanel { width: 100%; max-width: 390px; justify-self: center; } }
+@media (prefers-reduced-motion: reduce) { .celebration { backdrop-filter: none; } }

@@ -8,7 +8,7 @@ import {
 import { z } from "zod";
 import { prisma } from "@/lib/db/prisma";
 import { AppError } from "@/lib/errors/app-error";
-import { createQrToken, hashQrToken } from "@/lib/qr/token";
+import { createQrToken, encryptQrToken, hashQrToken } from "@/lib/qr/token";
 import { deriveEventState } from "@/lib/time/event-state";
 import { sendRegistrationConfirmation } from "@/services/email.service";
 import {
@@ -231,6 +231,7 @@ export async function createRegistration(eventId: string, rawInput: unknown, use
           phone: event.collectPhone ? input.phone?.trim() || null : null,
           faculty: event.collectFaculty ? input.faculty?.trim() || null : null,
           qrTokenHash: hashQrToken(qrToken),
+          qrTokenEncrypted: encryptQrToken(qrToken, registrationCode),
           answers: {
             create: answers.map((answer) => ({
               eventFieldId: answer.eventFieldId,

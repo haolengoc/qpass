@@ -94,13 +94,20 @@ async function createCheckin(
   }
 
   try {
-    const checkin = await prisma.checkin.create({
-      data: {
-        registrationId: registration.id,
-        eventId,
-        checkedInBy: userId,
-        method
-      }
+    const checkin = await prisma.$transaction(async (transaction) => {
+      const created = await transaction.checkin.create({
+        data: {
+          registrationId: registration.id,
+          eventId,
+          checkedInBy: userId,
+          method
+        }
+      });
+      await transaction.registration.update({
+        where: { id: registration.id },
+        data: { qrTokenEncrypted: null }
+      });
+      return created;
     });
     return {
       status: "SUCCESS" as const,
@@ -206,4 +213,3 @@ export async function searchRegistrationsForCheckin(eventId: string, search: str
     take: 10
   });
 }
-

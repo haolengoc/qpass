@@ -35,7 +35,7 @@ export async function listParticipantEvents(userId: string, input: {
       _count: { select: { registrations: { where: { status: "REGISTERED" } } } },
       registrations: {
         where: { userId },
-        select: { registrationCode: true, status: true, checkin: { select: { checkedInAt: true } } }
+        select: { id: true, registrationCode: true, status: true, checkin: { select: { checkedInAt: true } } }
       }
     }
   });

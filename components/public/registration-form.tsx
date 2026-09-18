@@ -73,10 +73,6 @@ export function RegistrationForm({ event, account }: RegistrationFormProps) {
       const payload = await response.json();
       if (!response.ok) throw new Error(payload.error?.message ?? "Không thể đăng ký.");
 
-      sessionStorage.setItem(
-        `registration-success:${account.id}:${event.slug}`,
-        JSON.stringify(payload.data)
-      );
       showToast({
         title: "Đăng ký thành công",
         description: "Mã QR check-in của bạn đã sẵn sàng."

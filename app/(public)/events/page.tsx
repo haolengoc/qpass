@@ -1,4 +1,4 @@
-import { ArrowRight, CalendarDays, CheckCircle2, ChevronLeft, ChevronRight, MapPin, Search, Ticket, Users } from "lucide-react";
+import { ArrowRight, CalendarDays, CheckCircle2, ChevronLeft, ChevronRight, MapPin, QrCode, Search, Ticket, Users } from "lucide-react";
 import Image from "next/image";
 import Link from "@/components/ui/link";
 import { redirect } from "next/navigation";
@@ -53,6 +53,9 @@ export default async function ParticipantEventsPage({ searchParams }: {
         <Link href="/events?view=registered" aria-current={registered ? "page" : undefined}>
           <Ticket size={18} aria-hidden="true" />Đã đăng ký
         </Link>
+        <Link href="/events/qr-codes">
+          <QrCode size={18} aria-hidden="true" />Mã QR
+        </Link>
       </nav>
       <div className={styles.toolbar}>
         <p><strong>{pagination.total}</strong> sự kiện{search ? ` phù hợp với “${search}”` : ""}</p>
@@ -93,8 +96,8 @@ export default async function ParticipantEventsPage({ searchParams }: {
                 <span>Mã đăng ký: {registration.registrationCode}</span>
               </div> : <p className={styles.capacity}><Users size={16} aria-hidden="true" />{event.capacity === null ? `${event._count.registrations} người đăng ký` : `${Math.max(0, event.capacity - event._count.registrations)} / ${event.capacity} chỗ còn lại`}</p>}
               <Button asChild variant={canRegister ? "default" : "outline"} className={canRegister ? styles.registerButton : styles.detailButton}>
-                <Link href={canRegister ? `/events/${event.slug}/register` : `/events/${event.slug}`}>
-                  {canRegister ? "Đăng ký tham dự" : "Xem chi tiết"}<ArrowRight size={16} aria-hidden="true" />
+                <Link href={canRegister ? `/events/${event.slug}/register` : registration && !checkedIn && registration.status === "REGISTERED" ? `/events/qr-codes#qr-${registration.id}` : `/events/${event.slug}`}>
+                  {canRegister ? "Đăng ký tham dự" : registration && !checkedIn && registration.status === "REGISTERED" ? "Mở mã QR" : "Xem chi tiết"}{registration && !checkedIn && registration.status === "REGISTERED" ? <QrCode size={16} aria-hidden="true" /> : <ArrowRight size={16} aria-hidden="true" />}
                 </Link>
               </Button>
             </div>

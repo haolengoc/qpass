@@ -129,6 +129,8 @@ nằm trong `.env.production.example`; không đưa file chứa khóa thật lê
 - BTC tạo, chỉnh sửa, xuất bản và hủy sự kiện; thiết lập thời gian, sức chứa và form.
 - Người tham gia tìm sự kiện, đăng ký tham dự và xem mục **Đã đăng ký**.
 - Kiểm tra thời gian đăng ký, giới hạn số lượng và đăng ký trùng; cấp mã đăng ký và QR.
+- Người tham gia có trang **Mã QR** riêng; mã vẫn còn sau khi tải lại trang và chỉ biến mất sau khi check-in.
+- Màn hình mã QR tự cập nhật thông báo check-in thành công sau khi Ban tổ chức quét.
 - Gửi email xác nhận kèm QR khi đã cấu hình `RESEND_API_KEY` và `EMAIL_FROM`.
   Lỗi gửi email không hủy đăng ký đã lưu.
 - Check-in bằng QR hoặc thủ công, kiểm tra đúng sự kiện, khung giờ và check-in trùng.
